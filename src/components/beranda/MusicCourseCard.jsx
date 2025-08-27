@@ -12,7 +12,7 @@ const MusicCourseCards = () => {
             id: 1,
             title: "Kursus Musik",
             description: "Pilihan kursus vokal dan alat musik untuk mengembangkan bakat bermusik Anda",
-            image: "assets/images/kursus_musik.jpg",
+            image: "/assets/images/kursus_musik.jpg",
             category: "Music Course",
             buttonText: "Lihat Semua",
         },
@@ -20,7 +20,7 @@ const MusicCourseCards = () => {
             id: 2,
             title: "Jasa Pembuatan Lagu",
             description: "Layanan profesional untuk mewujudkan ide musik Anda menjadi karya nyata",
-            image: "assets/images/jasa_pembuatan_lagu.jpg",
+            image: "/assets/images/jasa_pembuatan_lagu.jpg",
             category: "Music Production",
             buttonText: "Lihat Semua",
         },
@@ -28,7 +28,7 @@ const MusicCourseCards = () => {
             id: 3,
             title: "Sewa Alat Musik",
             description: "Solusi lengkap penyewaan beragam alat musik untuk keperluan Anda",
-            image: "assets/images/sewa_alat_musik.jpg",
+            image: "/assets/images/sewa_alat_musik.jpg",
             category: "Musical Instrument Rental",
             buttonText: "Lihat Semua",
         },
@@ -136,7 +136,7 @@ const MusicCourseCards = () => {
                                 className="cursor-pointer bg-gray-100 hover:bg-blue-100 border border-gray-300 rounded-xl overflow-hidden transition-all shadow-sm hover:shadow-lg"
                             >
                                 <img
-                                    src="assets/images/alat_musik.jpg"
+                                    src="/assets/images/alat_musik.jpg"
                                     alt="Kursus Alat Musik"
                                     className="w-full h-32 object-cover"
                                 />
@@ -149,7 +149,7 @@ const MusicCourseCards = () => {
                                 className="cursor-pointer bg-gray-100 hover:bg-purple-100 border border-gray-300 rounded-xl overflow-hidden transition-all shadow-sm hover:shadow-lg"
                             >
                                 <img
-                                    src="assets/images/vokal.jpg"
+                                    src="/assets/images/vokal.jpg"
                                     alt="Kursus Vokal"
                                     className="w-full h-32 object-cover"
                                 />

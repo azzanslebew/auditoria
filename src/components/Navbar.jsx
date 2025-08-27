@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import logoAuditoria from '../../assets/logo/logo_auditoria.png'; // Sesuaikan path dengan struktur proyek Senpai
+import logoAuditoria from '/assets/logo/logo_auditoria.png'; // Sesuaikan path dengan struktur proyek Senpai
 
 const Navbar = ({ onMobileSidebarToggle }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
