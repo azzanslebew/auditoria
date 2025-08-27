@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Icon } from '@iconify/react';
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
 
 const MusicCourseCards = () => {
     const [showPopup, setShowPopup] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const scrollRef = useRef(null);
     const popupRef = useRef(null);
     const navigate = useNavigate();
 
@@ -11,7 +13,8 @@ const MusicCourseCards = () => {
         {
             id: 1,
             title: "Kursus Musik",
-            description: "Pilihan kursus vokal dan alat musik untuk mengembangkan bakat bermusik Anda",
+            description:
+                "Pilihan kursus vokal dan alat musik untuk mengembangkan bakat bermusik Anda",
             image: "/assets/images/kursus_musik.jpg",
             category: "Music Course",
             buttonText: "Lihat Semua",
@@ -19,7 +22,8 @@ const MusicCourseCards = () => {
         {
             id: 2,
             title: "Jasa Pembuatan Lagu",
-            description: "Layanan profesional untuk mewujudkan ide musik Anda menjadi karya nyata",
+            description:
+                "Layanan profesional untuk mewujudkan ide musik Anda menjadi karya nyata",
             image: "/assets/images/jasa_pembuatan_lagu.jpg",
             category: "Music Production",
             buttonText: "Lihat Semua",
@@ -27,22 +31,45 @@ const MusicCourseCards = () => {
         {
             id: 3,
             title: "Sewa Alat Musik",
-            description: "Solusi lengkap penyewaan beragam alat musik untuk keperluan Anda",
+            description:
+                "Solusi lengkap penyewaan beragam alat musik untuk keperluan Anda",
             image: "/assets/images/sewa_alat_musik.jpg",
             category: "Musical Instrument Rental",
             buttonText: "Lihat Semua",
         },
     ];
 
-    // Close popup when clicking outside
+    // 🔹 Update dots sesuai scroll
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            const scrollLeft = scrollRef.current.scrollLeft;
+            const width = scrollRef.current.clientWidth;
+            const index = Math.round(scrollLeft / width);
+            setActiveIndex(index);
+        }
+    };
+
+    // 🔹 Klik dots buat pindah card
+    const scrollToIndex = (index) => {
+        if (scrollRef.current) {
+            const width = scrollRef.current.clientWidth;
+            scrollRef.current.scrollTo({
+                left: width * index,
+                behavior: "smooth",
+            });
+            setActiveIndex(index);
+        }
+    };
+
+    // Close popup ketika klik di luar
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (popupRef.current && !popupRef.current.contains(e.target)) {
                 setShowPopup(false);
             }
         };
-        if (showPopup) document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        if (showPopup) document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [showPopup]);
 
     return (
@@ -52,9 +79,9 @@ const MusicCourseCards = () => {
                 className="lg:block absolute inset-0"
                 style={{
                     backgroundImage: `url('assets/images/background_beranda.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    clipPath: 'polygon(0 0, 100% 0, 85% 100%, 100%)',
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    clipPath: "polygon(0 0, 100% 0, 85% 100%, 100%)",
                     zIndex: 0,
                 }}
             />
@@ -64,11 +91,18 @@ const MusicCourseCards = () => {
 
             {/* Cards */}
             <div className="relative max-w-6xl mx-auto px-4 py-16 z-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    className="
+            flex space-x-4 overflow-x-auto snap-x snap-mandatory pb-6
+            sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:space-x-0 sm:overflow-visible
+          "
+                >
                     {courseData.map((course) => (
                         <div
                             key={course.id}
-                            className="group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20"
+                            className="min-w-full sm:min-w-0 snap-center group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20"
                         >
                             <div className="relative h-48 sm:h-56 overflow-hidden">
                                 <img
@@ -81,7 +115,6 @@ const MusicCourseCards = () => {
                                         {course.category}
                                     </span>
                                 </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </div>
 
                             <div className="p-5 sm:p-6">
@@ -97,9 +130,9 @@ const MusicCourseCards = () => {
                                         if (course.id === 1) {
                                             setShowPopup(true);
                                         } else if (course.id === 2) {
-                                            navigate('/peserta/jasa-buat-lagu');
+                                            navigate("/peserta/jasa-buat-lagu");
                                         } else if (course.id === 3) {
-                                            navigate('/peserta/sewa-alat-musik');
+                                            navigate("/peserta/sewa-alat-musik");
                                         }
                                     }}
                                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95"
@@ -107,9 +140,21 @@ const MusicCourseCards = () => {
                                     {course.buttonText}
                                 </button>
                             </div>
-
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                         </div>
+                    ))}
+                </div>
+
+                {/* 🔹 Dots Navigation */}
+                <div className="flex justify-center mt-4 sm:hidden">
+                    {courseData.map((_, index) => (
+                        <span
+                            key={index}
+                            onClick={() => scrollToIndex(index)}
+                            className={`mx-1 w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${activeIndex === index
+                                    ? "bg-blue-600 scale-125"
+                                    : "bg-white hover:bg-gray-400"
+                                }`}
+                        />
                     ))}
                 </div>
             </div>
@@ -121,7 +166,6 @@ const MusicCourseCards = () => {
                         ref={popupRef}
                         className="relative bg-white text-slate-900 max-w-md w-full rounded-2xl p-6 sm:p-8 shadow-2xl border border-slate-300"
                     >
-                        {/* Tombol Tutup */}
                         <button
                             onClick={() => setShowPopup(false)}
                             className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl font-bold"
@@ -129,10 +173,12 @@ const MusicCourseCards = () => {
                             <Icon icon="mdi:close" className="text-lg" />
                         </button>
 
-                        <h2 className="text-2xl font-semibold mb-4 text-center text-blue-600">Pilih Jenis Kursus</h2>
+                        <h2 className="text-2xl font-semibold mb-4 text-center text-blue-600">
+                            Pilih Jenis Kursus
+                        </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div
-                                onClick={() => navigate('/peserta/alatmusik')}
+                                onClick={() => navigate("/peserta/alatmusik")}
                                 className="cursor-pointer bg-gray-100 hover:bg-blue-100 border border-gray-300 rounded-xl overflow-hidden transition-all shadow-sm hover:shadow-lg"
                             >
                                 <img
@@ -141,11 +187,13 @@ const MusicCourseCards = () => {
                                     className="w-full h-32 object-cover"
                                 />
                                 <div className="p-3 text-center">
-                                    <p className="text-slate-800 font-semibold">Kursus Alat Musik</p>
+                                    <p className="text-slate-800 font-semibold">
+                                        Kursus Alat Musik
+                                    </p>
                                 </div>
                             </div>
                             <div
-                                onClick={() => navigate('/peserta/vokal')}
+                                onClick={() => navigate("/peserta/vokal")}
                                 className="cursor-pointer bg-gray-100 hover:bg-purple-100 border border-gray-300 rounded-xl overflow-hidden transition-all shadow-sm hover:shadow-lg"
                             >
                                 <img
